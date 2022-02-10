@@ -1,6 +1,7 @@
 package com.list.tasks.payload;
 
 import com.list.tasks.model.Task;
+import com.list.tasks.model.TaskPriority;
 import com.list.tasks.model.TaskStatus;
 import com.list.tasks.repository.TaskRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -27,21 +28,24 @@ public class TaskLoader implements CommandLineRunner {
                     new Task.Builder()
                             .title("Create unit tests for this app")
                             .description("On route api/v1/tasks")
-                            .todoStatus(TaskStatus.IN_PROGRESS)
+                            .taskStatus(TaskStatus.IN_PROGRESS)
+                            .taskPriority(TaskPriority.MEDIUM)
                             .build()
             );
             taskRepository.save(
                     new Task.Builder()
                             .title("Check pipeline for the app")
                             .description("On .github/workflows/maven.yml")
-                            .todoStatus(TaskStatus.TO_DO)
+                            .taskStatus(TaskStatus.TO_DO)
+                            .taskPriority(TaskPriority.HIGH)
                             .build()
             );
             taskRepository.save(
                     new Task.Builder()
                             .title("Improve API")
                             .description("Add new features")
-                            .todoStatus(TaskStatus.IN_PROGRESS)
+                            .taskStatus(TaskStatus.IN_PROGRESS)
+                            .taskPriority(TaskPriority.LOW)
                             .build()
             );
             System.out.println(new Timestamp(System.currentTimeMillis()) + "  DATA --- [tasks payload]        : Loaded successfully");

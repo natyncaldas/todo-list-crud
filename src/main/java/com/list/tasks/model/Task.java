@@ -21,7 +21,9 @@ public class Task {
     @Column
     String description;
     @Column
-    TaskStatus todoStatus;
+    TaskStatus taskStatus;
+    @Column
+    TaskPriority taskPriority;
 
 
     @CreationTimestamp
@@ -30,11 +32,12 @@ public class Task {
     @UpdateTimestamp
     Timestamp lastModified;
 
-    public Task(Long id, String title, String description, TaskStatus todoStatus, Timestamp dateCreated, Timestamp lastModified) {
+    public Task(Long id, String title, String description, TaskStatus taskStatus, TaskPriority taskPriority, Timestamp dateCreated, Timestamp lastModified) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.todoStatus = todoStatus;
+        this.taskStatus = taskStatus;
+        this.taskPriority = taskPriority;
         this.dateCreated = dateCreated;
         this.lastModified = lastModified;
     }
@@ -45,7 +48,8 @@ public class Task {
     public Task(Builder builder) {
         this.title = builder.title;
         this.description = builder.description;
-        this.todoStatus = builder.todoStatus;
+        this.taskStatus = builder.taskStatus;
+        this.taskPriority = builder.taskPriority;
     }
 
 
@@ -61,8 +65,8 @@ public class Task {
         return description;
     }
 
-    public TaskStatus getTodoStatus() {
-        return todoStatus;
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
     }
 
     public Timestamp getDateCreated() {
@@ -71,6 +75,14 @@ public class Task {
 
     public Timestamp getLastModified() {
         return lastModified;
+    }
+
+    public TaskPriority getTaskPriority() {
+        return taskPriority;
+    }
+
+    public void setTaskPriority(TaskPriority taskPriority) {
+        this.taskPriority = taskPriority;
     }
 
     public void setId(Long id) {
@@ -85,8 +97,8 @@ public class Task {
         this.description = description;
     }
 
-    public void setTodoStatus(TaskStatus todoStatus) {
-        this.todoStatus = todoStatus;
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
     }
 
     public void setDateCreated(Timestamp dateCreated) {
@@ -105,14 +117,14 @@ public class Task {
         return id.equals(task.id) &&
                 title.equals(task.title) &&
                 Objects.equals(description, task.description) &&
-                todoStatus == task.todoStatus &&
+                taskStatus == task.taskStatus &&
                 dateCreated.equals(task.dateCreated) &&
                 lastModified.equals(task.lastModified);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, todoStatus, dateCreated, lastModified);
+        return Objects.hash(id, title, description, taskStatus, dateCreated, lastModified);
     }
 
     @Override
@@ -121,7 +133,8 @@ public class Task {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", todoStatus=" + todoStatus +
+                ", taskStatus=" + taskStatus +
+                ", taskPriority=" + taskPriority +
                 ", dateCreated=" + dateCreated +
                 ", lastModified=" + lastModified +
                 '}';
@@ -131,9 +144,8 @@ public class Task {
         private Long id;
         private String title;
         private String description;
-        private TaskStatus todoStatus;
-        private Timestamp dateCreated;
-        private Timestamp lastModified;
+        private TaskStatus taskStatus;
+        private TaskPriority taskPriority;
 
         public Builder() {
         }
@@ -145,8 +157,12 @@ public class Task {
             this.description = description;
             return this;
         }
-        public Builder todoStatus(TaskStatus todoStatus) {
-            this.todoStatus = todoStatus;
+        public Builder taskStatus(TaskStatus taskStatus) {
+            this.taskStatus = taskStatus;
+            return this;
+        }
+        public Builder taskPriority(TaskPriority taskPriority) {
+            this.taskPriority = taskPriority;
             return this;
         }
         public Task build() {

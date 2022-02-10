@@ -9,41 +9,42 @@ import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-    TaskRepository todoRepository;
+    TaskRepository taskRepository;
 
-    public TaskServiceImpl(TaskRepository todoRepository) {
-        this.todoRepository = todoRepository;
+    public TaskServiceImpl(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
     @Override
     public List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
-        todoRepository.findAll().forEach(tasks::add);
+        taskRepository.findAll().forEach(tasks::add);
         return tasks;
     }
 
     @Override
     public Task getTaskById(Long id) {
-        return todoRepository.findById(id).get();
+        return taskRepository.findById(id).get();
     }
 
     @Override
     public Task postTask(Task task) {
-        return todoRepository.save(task);
+        return taskRepository.save(task);
     }
 
     @Override
     public void updateTask(Long id, Task task) {
-        Task _task = todoRepository.findById(id).get();
-        _task.setTodoStatus(task.getTodoStatus());
+        Task _task = taskRepository.findById(id).get();
+        _task.setTaskStatus(task.getTaskStatus());
         _task.setDescription(task.getDescription());
         _task.setTitle(task.getTitle());
-        todoRepository.save(_task);
+        _task.setTaskPriority(task.getTaskPriority());
+        taskRepository.save(_task);
     }
 
     @Override
     public void deleteTask(Long todoId) {
-        todoRepository.deleteById(todoId);
+        taskRepository.deleteById(todoId);
     }
 }
 
