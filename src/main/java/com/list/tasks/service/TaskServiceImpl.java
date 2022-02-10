@@ -39,12 +39,13 @@ public class TaskServiceImpl implements TaskService {
         _task.setDescription(task.getDescription());
         _task.setTitle(task.getTitle());
         _task.setTaskPriority(task.getTaskPriority());
+        _task.setLabel(task.getLabel());
         taskRepository.save(_task);
     }
 
     @Override
-    public void deleteTask(Long todoId) {
-        taskRepository.deleteById(todoId);
+    public void deleteTask(Long taskId) {
+        taskRepository.deleteById(taskId);
     }
 }
 

@@ -13,5 +13,5 @@ public interface TaskService {
 
     void updateTask(Long id, Task task);
 
-    void deleteTask(Long todoId);
+    void deleteTask(Long taskId);
 }
