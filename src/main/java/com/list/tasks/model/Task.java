@@ -1,17 +1,14 @@
-package com.list.todo.model;
+package com.list.tasks.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-public class Todo {
+public class Task {
     @Id
     @GeneratedValue
     @Column(updatable = false, nullable = false)
@@ -21,7 +18,12 @@ public class Todo {
     @Column
     String description;
     @Column
-    TodoStatus todoStatus;
+    TaskStatus taskStatus;
+    @Column
+    TaskPriority taskPriority;
+
+    @OneToOne(targetEntity=Label.class, cascade=CascadeType.PERSIST)
+    Label label;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -29,22 +31,26 @@ public class Todo {
     @UpdateTimestamp
     Timestamp lastModified;
 
-    public Todo(Long id, String title, String description, TodoStatus todoStatus, Timestamp dateCreated, Timestamp lastModified) {
+    public Task(Long id, String title, String description, TaskStatus taskStatus, TaskPriority taskPriority, Label label, Timestamp dateCreated, Timestamp lastModified) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.todoStatus = todoStatus;
+        this.taskStatus = taskStatus;
+        this.taskPriority = taskPriority;
+        this.label = label;
         this.dateCreated = dateCreated;
         this.lastModified = lastModified;
     }
 
-    public Todo() {
+    public Task() {
     }
 
-    public Todo(Builder builder) {
+    public Task(Builder builder) {
         this.title = builder.title;
         this.description = builder.description;
-        this.todoStatus = builder.todoStatus;
+        this.taskStatus = builder.taskStatus;
+        this.taskPriority = builder.taskPriority;
+        this.label = builder.label;
     }
 
 
@@ -60,8 +66,8 @@ public class Todo {
         return description;
     }
 
-    public TodoStatus getTodoStatus() {
-        return todoStatus;
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
     }
 
     public Timestamp getDateCreated() {
@@ -70,6 +76,22 @@ public class Todo {
 
     public Timestamp getLastModified() {
         return lastModified;
+    }
+
+    public TaskPriority getTaskPriority() {
+        return taskPriority;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
+        this.label = label;
+    }
+
+    public void setTaskPriority(TaskPriority taskPriority) {
+        this.taskPriority = taskPriority;
     }
 
     public void setId(Long id) {
@@ -84,8 +106,8 @@ public class Todo {
         this.description = description;
     }
 
-    public void setTodoStatus(TodoStatus todoStatus) {
-        this.todoStatus = todoStatus;
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
     }
 
     public void setDateCreated(Timestamp dateCreated) {
@@ -100,39 +122,44 @@ public class Todo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Todo todo = (Todo) o;
-        return id.equals(todo.id) &&
-                title.equals(todo.title) &&
-                Objects.equals(description, todo.description) &&
-                todoStatus == todo.todoStatus &&
-                dateCreated.equals(todo.dateCreated) &&
-                lastModified.equals(todo.lastModified);
+        Task task = (Task) o;
+        return id.equals(task.id) &&
+                title.equals(task.title) &&
+                description.equals(task.description) &&
+                taskStatus == task.taskStatus &&
+                taskPriority == task.taskPriority &&
+                Objects.equals(label, task.label) &&
+                dateCreated.equals(task.dateCreated) &&
+                lastModified.equals(task.lastModified);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, todoStatus, dateCreated, lastModified);
+        return Objects.hash(id, title, description, taskStatus, taskPriority, label, dateCreated, lastModified);
     }
 
     @Override
     public String toString() {
-        return "Todo{" +
+        return "Task{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", todoStatus=" + todoStatus +
+                ", taskStatus=" + taskStatus +
+                ", taskPriority=" + taskPriority +
+                ", label=" + label +
                 ", dateCreated=" + dateCreated +
                 ", lastModified=" + lastModified +
                 '}';
     }
+
     public static class Builder
     {
         private Long id;
         private String title;
         private String description;
-        private TodoStatus todoStatus;
-        private Timestamp dateCreated;
-        private Timestamp lastModified;
+        private TaskStatus taskStatus;
+        private TaskPriority taskPriority;
+        private Label label;
 
         public Builder() {
         }
@@ -144,14 +171,21 @@ public class Todo {
             this.description = description;
             return this;
         }
-        public Builder todoStatus(TodoStatus todoStatus) {
-            this.todoStatus = todoStatus;
+        public Builder taskStatus(TaskStatus taskStatus) {
+            this.taskStatus = taskStatus;
             return this;
         }
-        //Return the finally consrcuted User object
-        public Todo build() {
-            Todo todo =  new Todo(this);
-            return todo;
+        public Builder taskPriority(TaskPriority taskPriority) {
+            this.taskPriority = taskPriority;
+            return this;
+        }
+        public Builder label(Label label) {
+            this.label = label;
+            return this;
+        }
+        public Task build() {
+            Task task =  new Task(this);
+            return task;
         }
     }
 }
