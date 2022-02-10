@@ -4,7 +4,7 @@
 ## Super Linter GitHub Actions ##
 #################################
 #################################
-name: Static code analysis
+name: Lint Code Base
 
 #
 # Documentation:
