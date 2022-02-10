@@ -29,6 +29,7 @@ public class TodoController {
         return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
     }
 
+    @PostMapping
     public ResponseEntity<Todo> saveTodo(@RequestBody Todo todo) {
         Todo todo1 = todoService.insert(todo);
         HttpHeaders httpHeaders = new HttpHeaders();
