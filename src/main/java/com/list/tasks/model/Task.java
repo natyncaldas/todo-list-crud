@@ -3,10 +3,7 @@ package com.list.tasks.model;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -25,6 +22,8 @@ public class Task {
     @Column
     TaskPriority taskPriority;
 
+    @OneToOne(targetEntity=Label.class, cascade=CascadeType.PERSIST)
+    Label label;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -32,12 +31,13 @@ public class Task {
     @UpdateTimestamp
     Timestamp lastModified;
 
-    public Task(Long id, String title, String description, TaskStatus taskStatus, TaskPriority taskPriority, Timestamp dateCreated, Timestamp lastModified) {
+    public Task(Long id, String title, String description, TaskStatus taskStatus, TaskPriority taskPriority, Label label, Timestamp dateCreated, Timestamp lastModified) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.taskStatus = taskStatus;
         this.taskPriority = taskPriority;
+        this.label = label;
         this.dateCreated = dateCreated;
         this.lastModified = lastModified;
     }
@@ -50,6 +50,7 @@ public class Task {
         this.description = builder.description;
         this.taskStatus = builder.taskStatus;
         this.taskPriority = builder.taskPriority;
+        this.label = builder.label;
     }
 
 
@@ -79,6 +80,14 @@ public class Task {
 
     public TaskPriority getTaskPriority() {
         return taskPriority;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
+        this.label = label;
     }
 
     public void setTaskPriority(TaskPriority taskPriority) {
@@ -116,15 +125,17 @@ public class Task {
         Task task = (Task) o;
         return id.equals(task.id) &&
                 title.equals(task.title) &&
-                Objects.equals(description, task.description) &&
+                description.equals(task.description) &&
                 taskStatus == task.taskStatus &&
+                taskPriority == task.taskPriority &&
+                Objects.equals(label, task.label) &&
                 dateCreated.equals(task.dateCreated) &&
                 lastModified.equals(task.lastModified);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, taskStatus, dateCreated, lastModified);
+        return Objects.hash(id, title, description, taskStatus, taskPriority, label, dateCreated, lastModified);
     }
 
     @Override
@@ -135,10 +146,12 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", taskStatus=" + taskStatus +
                 ", taskPriority=" + taskPriority +
+                ", label=" + label +
                 ", dateCreated=" + dateCreated +
                 ", lastModified=" + lastModified +
                 '}';
     }
+
     public static class Builder
     {
         private Long id;
@@ -146,6 +159,7 @@ public class Task {
         private String description;
         private TaskStatus taskStatus;
         private TaskPriority taskPriority;
+        private Label label;
 
         public Builder() {
         }
@@ -163,6 +177,10 @@ public class Task {
         }
         public Builder taskPriority(TaskPriority taskPriority) {
             this.taskPriority = taskPriority;
+            return this;
+        }
+        public Builder label(Label label) {
+            this.label = label;
             return this;
         }
         public Task build() {
