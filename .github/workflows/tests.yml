@@ -2,7 +2,6 @@ name: Java test coverage with Maven
 
 on:
   push:
-    branches: [ develop ]
   pull_request:
     branches: [ develop ]
 
