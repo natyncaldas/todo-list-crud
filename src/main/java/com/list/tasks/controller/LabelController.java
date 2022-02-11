@@ -32,15 +32,13 @@ public class LabelController {
     @PostMapping
     public ResponseEntity<Label> postLabel(@RequestBody Label label) {
         Label _label = labelService.postLabel(label);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("label", "/api/v1/labels/" + _label.getId().toString());
-        return new ResponseEntity<>(_label, httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(_label, HttpStatus.CREATED);
     }
 
     @PutMapping({"/{id}"})
     public ResponseEntity<Label> updateLabel(@PathVariable("id") Long id, @RequestBody Label label) {
-        labelService.updateLabel(id, label);
-        return new ResponseEntity<>(labelService.getLabelById(id), HttpStatus.OK);
+        Label _label = labelService.updateLabel(id, label);
+        return new ResponseEntity<>(_label, HttpStatus.OK);
     }
 
     @DeleteMapping({"/{id}"})
