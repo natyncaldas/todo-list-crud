@@ -33,14 +33,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(Long id, Task task) {
+    public Task updateTask(Long id, Task task) {
         Task _task = taskRepository.findById(id).get();
         _task.setTaskStatus(task.getTaskStatus());
         _task.setDescription(task.getDescription());
         _task.setTitle(task.getTitle());
         _task.setTaskPriority(task.getTaskPriority());
         _task.setLabel(task.getLabel());
-        taskRepository.save(_task);
+        return taskRepository.save(_task);
     }
 
     @Override

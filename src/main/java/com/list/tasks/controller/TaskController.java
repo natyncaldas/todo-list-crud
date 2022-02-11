@@ -32,15 +32,13 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> postTask(@RequestBody Task task) {
         Task _task = taskService.postTask(task);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("task", "/api/v1/tasks/" + _task.getId().toString());
-        return new ResponseEntity<>(_task, httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(_task, HttpStatus.CREATED);
     }
 
     @PutMapping({"/{id}"})
     public ResponseEntity<Task> updateTask(@PathVariable("id") Long id, @RequestBody Task task) {
-        taskService.updateTask(id, task);
-        return new ResponseEntity<>(taskService.getTaskById(id), HttpStatus.OK);
+        Task _task = taskService.updateTask(id, task);
+        return new ResponseEntity<>(_task, HttpStatus.OK);
     }
 
     @DeleteMapping({"/{id}"})
