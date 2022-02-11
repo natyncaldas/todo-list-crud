@@ -4,7 +4,7 @@
 
 > Spring Boot + JPA / Hibernate + H2 Database
 
-> *Trabalho final da disciplina de **Técnicas de Progrmação 2** da **Universidade Federal do Ceará***.
+> *Trabalho final da disciplina de **Técnicas de Progrmação 2** da **Universidade Federal do Ceará***. [Vídeo explicando o projeto](https://youtu.be/K9VQvBDPly8).
 
 ## Introduction
 
