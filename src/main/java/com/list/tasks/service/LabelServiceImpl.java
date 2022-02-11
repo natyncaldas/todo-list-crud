@@ -33,11 +33,11 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
-    public void updateLabel(Long id, Label label) {
+    public Label updateLabel(Long id, Label label) {
         Label _label = labelRepository.findById(id).get();
         _label.setTitle(label.getTitle());
         _label.setLabelColor(label.getLabelColor());
-        labelRepository.save(_label);
+        return labelRepository.save(_label);
     }
 
     @Override

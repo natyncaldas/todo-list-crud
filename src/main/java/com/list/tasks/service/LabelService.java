@@ -11,7 +11,7 @@ public interface LabelService {
 
     Label postLabel(Label label);
 
-    void updateLabel(Long id, Label label);
+    Label updateLabel(Long id, Label label);
 
     void deleteLabel(Long labelId);
 }
